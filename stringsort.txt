@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<string.h>
+int main(){
+    char arr[5][50]={"himanshunjklm","chirag","navdeep","vishu","gian"};
+    for(int i=0;i<5;i++){
+        int mini=strlen(arr[i]);
+        int ind=i;
+        for(int j=i;j<5;j++){
+            if(strlen(arr[j])<mini){
+                mini=strlen(arr[j]);
+                ind=j;
+            }
+        }
+        char temp[10];
+        strcpy(temp, arr[i]);
+        strcpy(arr[i], arr[ind]);
+        strcpy(arr[ind], temp);
+        for(int i=0;i<5;i++){
+        printf("%s ",arr[i]);
+    }
+    printf("\n");
+    }   
+    
+}
