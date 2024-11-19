@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+void append(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    struct Node* temp = *head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Function to print the linked list
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Function to sort the linked list using insertion sort
+struct Node* insertionSort(struct Node* head) {
+    if (head == NULL || head->next == NULL) return head;
+
+    struct Node* sorted = NULL; // New sorted list
+
+    struct Node* current = head;
+    while (current != NULL) {
+        struct Node* next = current->next; // Store next node
+
+        // Insert current node into the sorted list
+        if (sorted == NULL || sorted->data >= current->data) {
+            // Insert at the beginning of the sorted list
+            current->next = sorted;
+            sorted = current;
+        } else {
+            // Insert in the middle or end of the sorted list
+            struct Node* temp = sorted;
+            while (temp->next != NULL && temp->next->data < current->data) {
+                temp = temp->next;
+            }
+            current->next = temp->next;
+            temp->next = current;
+        }
+        current = next; // Move to the next node
+    }
+
+    return sorted; // Return the new sorted list
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    // Create the unsorted linked list
+    append(&head, 5);
+    append(&head, 4);
+    append(&head, 1);
+    append(&head, 3);
+    append(&head, 2);
+
+    printf("Original list: ");
+    printList(head);
+
+    // Sort the linked list
+    head = insertionSort(head);
+
+    printf("Sorted list: ");
+    printList(head);
+
+    return 0;
+}
